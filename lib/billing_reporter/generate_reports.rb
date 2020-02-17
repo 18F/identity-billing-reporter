@@ -3,11 +3,12 @@ require 'json'
 require 'erb'
 require 'yaml'
 require 'squid'
+require 'date'
 
 module BillingReporter
   class GenerateReports
     TOTAL_PRIOR_MONTHS = 4
-    LOGO_FN = 'app/assets/images/login-primary@2x.png'.freeze
+    LOGO_FN = 'assets/images/login-primary@2x.png'.freeze
 
     def initialize
       @issuer_year_month_to_count = {}
@@ -43,7 +44,7 @@ module BillingReporter
       Prawn::Document.generate(fn) do
         image LOGO_FN, width: 500
         text "\nBilling Report for #{Date::MONTHNAMES[month]} #{year}\n\n", size: 28, align: :center
-        text Time.zone.today.strftime('%B %-d, %Y')
+        text Time.now.strftime('%B %-d, %Y')
         text "\n"
         text "Agency: #{agency}"
         text "Application: #{friendly_name}\n\n"
