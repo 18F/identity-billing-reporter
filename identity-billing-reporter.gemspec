@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('dotenv')
   s.add_dependency('prawn')
+  s.add_dependency('squid')
 
   s.add_development_dependency('irb')
   s.add_development_dependency('pry-byebug')
