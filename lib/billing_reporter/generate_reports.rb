@@ -43,7 +43,7 @@ module BillingReporter
       data = chart_data(issuer, year, month, ial)
       Prawn::Document.generate(fn) do
         image LOGO_FN, width: 500
-        text "\nBilling Report for #{Date::MONTHNAMES[month]} #{year}\n\n", size: 28, align: :center
+        text "\nUsage Report for #{Date::MONTHNAMES[month]} #{year}\n\n", size: 28, align: :center
         text Time.now.strftime('%B %-d, %Y')
         text "\n"
         text "Agency: #{agency}"
