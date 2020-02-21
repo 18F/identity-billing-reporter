@@ -1,7 +1,7 @@
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
 require 'billing_reporter'
 
-if ARGV.length < 5
+if ARGV.length != 5
   puts "Usage: ruby main.rb destination_directory year month total_monthly_auths.json sp.yml"
   exit
 end
