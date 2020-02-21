@@ -3,3 +3,4 @@ service_providers.yml file.  The files will be created in the specified destinat
 
 `Usage:  ruby  main.rb  destination_dir  year  month  monthly_auths.json  service_providers.yml`
 
+![billing-report-1](https://user-images.githubusercontent.com/34244063/74994013-d7863080-541a-11ea-84b7-1b0975ec8cb7.png)
