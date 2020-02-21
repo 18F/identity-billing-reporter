@@ -1,6 +1,6 @@
 # rubocop:disable Style/FileName
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
-require 'identity-billing-reporter/version'
+require 'billing_reporter/version'
 
 Gem::Specification.new do |s|
   s.name = 'identity-billing-reporter'
@@ -16,10 +16,8 @@ Gem::Specification.new do |s|
   s.description = 'A utility for creating billing reports for login.gov partner agencies'
   s.date = Time.now.utc.strftime('%Y-%m-%d')
   s.files = Dir.glob('app/**/*') + Dir.glob('lib/**/*') + [
-    'LICENSE.md',
     'README.md',
     'Gemfile',
-    'identity-billing-reporter',
   ]
   s.license = 'LICENSE'
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -29,6 +27,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('dotenv')
   s.add_dependency('prawn')
+  s.add_dependency('squid')
 
   s.add_development_dependency('irb')
   s.add_development_dependency('pry-byebug')
