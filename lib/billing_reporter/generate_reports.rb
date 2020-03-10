@@ -14,8 +14,9 @@ module BillingReporter
       @issuer_year_month_to_count = {}
     end
 
-    def call(dest_dir:, year:, month:, auths_json:, sp_yml:)
+    def call(dest_dir:, year:, month:, sp_yml:, auths_json:, active_users_json:)
       @issuer_year_month_to_count = parse_total_monthly_auths_json(auths_json)
+      @issuer_to_active_ial2_user_count = parse_active_users_json(active_users_json)
       service_providers(sp_yml).each do |sp_issuer_n_hash|
         generate_billing_report(dest_dir, sp_issuer_n_hash, year, month)
       end
@@ -41,6 +42,7 @@ module BillingReporter
     # rubocop:disable Metrics/MethodLength
     def generate_pdf(fn:, agency:, issuer:, month:, year:, friendly_name:, ial:, total:)
       data = chart_data(issuer, year, month, ial)
+      actives = number_with_delimiter(@issuer_to_active_ial2_user_count[issuer])
       Prawn::Document.generate(fn) do
         image LOGO_FN, width: 500
         text "\nUsage Report for #{Date::MONTHNAMES[month]} #{year}\n\n", size: 28, align: :center
@@ -48,7 +50,8 @@ module BillingReporter
         text "\n"
         text "Agency: #{agency}"
         text "Application: #{friendly_name}\n\n"
-        text "Total IAL#{ial} Authentications for the month: #{total}\n\n"
+        text "Total authentications for the month: #{total}\n\n"
+        text "Total proofed users for the fiscal year: #{actives}\n\n" if ial == 2
         chart data
       end
     end
@@ -61,8 +64,8 @@ module BillingReporter
                               target_year: target_year, target_month: target_month)
       chart_data_current_month(prior_hash: prior_hash, current_hash: current_hash, issuer: issuer,
                                target_year: target_year, target_month: target_month)
-      { "IAL#{ial} Authentications Previous Months": prior_hash,
-        "IAL#{ial} Authentications Current Month": current_hash }
+      { "Authentications prior months": prior_hash,
+        "Authentications current Month": current_hash }
     end
 
     def chart_data_prior_months(prior_hash:, current_hash:, issuer:, target_year:, target_month:)
@@ -114,6 +117,15 @@ module BillingReporter
         issuer = hash['issuer']
         year_month = hash['year_month']
         results["#{issuer}|#{year_month}"] = hash['total']
+      end
+      results
+    end
+
+    def parse_active_users_json(json_fn)
+      results = {}
+      arr = JSON.parse(File.read(json_fn))
+      arr.each do |hash|
+        results[hash['issuer']] = hash['total_ial2_active']
       end
       results
     end
