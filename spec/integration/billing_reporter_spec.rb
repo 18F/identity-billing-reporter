@@ -8,8 +8,9 @@ RSpec.describe BillingReporter::GenerateReports do
           dest_dir: '.',
           year: 2020,
           month: 1,
-          auths_json: 'spec/fixtures/total_monthly_auths.json',
           sp_yml: 'spec/fixtures/service_providers.yml',
+          auths_json: 'spec/fixtures/total_monthly_auths.json',
+          active_users_json: 'spec/fixtures/total_monthly_auths.json',
           )
       confirm_exists_and_unlink(
           'billing-report.test agency 1.urn-gov-login-test-providers-fake-prod-sp.pdf',
