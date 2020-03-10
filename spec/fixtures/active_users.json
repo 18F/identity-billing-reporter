@@ -1,0 +1,3 @@
+[
+  { "issuer":"urn:gov:login:test-providers:fake-prod-sp", "total_ial1_active": 10, "total_ial2_active": 20 }
+]
